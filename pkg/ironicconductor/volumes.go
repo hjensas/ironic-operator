@@ -23,7 +23,8 @@ func GetVolumes(instance *ironicv1.IronicConductor) []corev1.Volume {
 		},
 	}
 
-	return append(ironic.GetVolumes(instance.Name), conductorVolumes...)
+	// parentName = instance.Name - (ironic.ConductorComponent + instance.Spec.ConductorGroup)
+	return append(ironic.GetVolumes(instance.Name, parentName), conductorVolumes...)
 }
 
 // GetInitVolumeMounts - Ironic Conductor init task VolumeMounts

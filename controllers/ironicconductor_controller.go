@@ -852,8 +852,8 @@ func (r *IronicConductorReconciler) generateServiceConfigMaps(
 	// custom.conf is going to be merged into /etc/ironic/ironic.conf
 	// TODO: make sure custom.conf can not be overwritten
 	customData := map[string]string{
-		common.CustomServiceConfigFileName: instance.Spec.CustomServiceConfig,
-		"my.cnf":                           db.GetDatabaseClientConfig(tlsCfg), //(mschuppert) for now just get the default my.cnf
+		"02-conductor.conf": instance.Spec.CustomServiceConfig,
+		"my.cnf":            db.GetDatabaseClientConfig(tlsCfg), //(mschuppert) for now just get the default my.cnf
 	}
 
 	for key, data := range instance.Spec.DefaultConfigOverwrite {

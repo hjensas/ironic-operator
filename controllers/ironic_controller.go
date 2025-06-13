@@ -888,6 +888,7 @@ func (r *IronicReconciler) apiDeploymentCreateOrUpdate(
 
 	deployment := &ironicv1.IronicAPI{
 		ObjectMeta: metav1.ObjectMeta{
+			// Use a constant for the '-api' suffix
 			Name:      fmt.Sprintf("%s-api", instance.Name),
 			Namespace: instance.Namespace,
 		},
@@ -935,8 +936,8 @@ func (r *IronicReconciler) generateServiceConfigMaps(
 	// all other files get placed into /etc/ironic to allow overwrite of e.g. policy.json
 	// TODO: make sure custom.conf can not be overwritten
 	customData := map[string]string{
-		common.CustomServiceConfigFileName: instance.Spec.CustomServiceConfig,
-		"my.cnf":                           db.GetDatabaseClientConfig(tlsCfg), //(mschuppert) for now just get the default my.cnf
+		"01-custom.conf": instance.Spec.CustomServiceConfig,
+		"my.cnf":         db.GetDatabaseClientConfig(tlsCfg), //(mschuppert) for now just get the default my.cnf
 
 	}
 	for key, data := range instance.Spec.DefaultConfigOverwrite {

@@ -26,8 +26,8 @@ func GetVolumes(name string) []corev1.Volume {
 			},
 		},
 	}
-
-	return append(ironic.GetVolumes(name), apiVolumes...)
+	// parentName = instance.Name - '-api')
+	return append(ironic.GetVolumes(name, parentName), apiVolumes...)
 }
 
 // GetLogVolumeMount - Ironic API LogVolumeMount

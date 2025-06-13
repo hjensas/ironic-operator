@@ -42,7 +42,7 @@ func DbSyncJob(
 	envVars["KOLLA_CONFIG_STRATEGY"] = env.SetValue("COPY_ALWAYS")
 	envVars["KOLLA_BOOTSTRAP"] = env.SetValue("true")
 
-	volumes := GetVolumes(ServiceName)
+	volumes := GetVolumes(ServiceName) // GetVolumes need to support parent not being set
 	volumeMounts := GetDBSyncVolumeMounts()
 	initVolumeMounts := GetInitVolumeMounts()
 
