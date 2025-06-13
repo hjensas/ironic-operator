@@ -11,20 +11,23 @@ import (
 // GetVolumes -
 func GetVolumes(instance *ironicv1.IronicConductor) []corev1.Volume {
 	var config0640AccessMode int32 = 0640
+
+	// parentName = instance.Name - '-api'
+	parentName := instance.Name // - '-api'
 	conductorVolumes := []corev1.Volume{
 		{
-			Name: "config-data-custom",
+			Name: "config-data",
 			VolumeSource: corev1.VolumeSource{
 				Secret: &corev1.SecretVolumeSource{
 					DefaultMode: &config0640AccessMode,
-					SecretName:  fmt.Sprintf("%s-config-data", instance.Name),
+					SecretName:  parentName + "-config-data",
 				},
 			},
 		},
 	}
 
 	// parentName = instance.Name - (ironic.ConductorComponent + instance.Spec.ConductorGroup)
-	return append(ironic.GetVolumes(instance.Name, parentName), conductorVolumes...)
+	return append(ironic.GetVolumes(instance.Name), conductorVolumes...)
 }
 
 // GetInitVolumeMounts - Ironic Conductor init task VolumeMounts

@@ -5,7 +5,7 @@ import (
 )
 
 // GetVolumes -
-func GetVolumes(name string, parentName string) []corev1.Volume {
+func GetVolumes(name string) []corev1.Volume {
 	var scriptsVolumeDefaultMode int32 = 0755
 	var config0640AccessMode int32 = 0640
 
@@ -20,15 +20,6 @@ func GetVolumes(name string, parentName string) []corev1.Volume {
 			},
 		},
 		{
-			Name: "config-data",
-			VolumeSource: corev1.VolumeSource{
-				Secret: &corev1.SecretVolumeSource{
-					DefaultMode: &config0640AccessMode,
-					SecretName:  parentName + "-config-data",
-				},
-			},
-		},
-		{
 			Name: "config-data-custom",
 			VolumeSource: corev1.VolumeSource{
 				Secret: &corev1.SecretVolumeSource{
@@ -37,6 +28,7 @@ func GetVolumes(name string, parentName string) []corev1.Volume {
 				},
 			},
 		},
+		// Might not need?
 		{
 			Name: "config-data-merged",
 			VolumeSource: corev1.VolumeSource{

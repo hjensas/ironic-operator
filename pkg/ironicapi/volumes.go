@@ -9,13 +9,15 @@ import (
 func GetVolumes(name string) []corev1.Volume {
 	var config0640AccessMode int32 = 0640
 
+	// parentName = instance.Name - '-api'
+	parentName := name // - '-api'
 	apiVolumes := []corev1.Volume{
 		{
-			Name: "config-data-custom",
+			Name: "config-data",
 			VolumeSource: corev1.VolumeSource{
 				Secret: &corev1.SecretVolumeSource{
 					DefaultMode: &config0640AccessMode,
-					SecretName:  name + "-config-data",
+					SecretName:  parentName + "-config-data",
 				},
 			},
 		},
@@ -26,8 +28,8 @@ func GetVolumes(name string) []corev1.Volume {
 			},
 		},
 	}
-	// parentName = instance.Name - '-api')
-	return append(ironic.GetVolumes(name, parentName), apiVolumes...)
+	
+	return append(ironic.GetVolumes(name), apiVolumes...)
 }
 
 // GetLogVolumeMount - Ironic API LogVolumeMount
